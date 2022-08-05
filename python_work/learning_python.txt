@@ -1,0 +1,3 @@
+In python you can read file
+In python you can statisc data
+In python you can analyst data
