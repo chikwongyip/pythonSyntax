@@ -34,3 +34,28 @@ def upload(filename):
 
 download('MYSQL从衫裤到跑路.avi')
 upload('python从入门到住院.pdf')
+
+
+# 有下结构{"id":1,"name":"happy","parent_id":0},
+# 请用python实现一个递归函数，将上述数据转换为列表结构
+
+def build_tree(data, parent_id=0):
+    tree = []
+    for item in data:
+        if item['parent_id'] == parent_id:
+            children = build_tree(data, item['id'])
+            if children:
+                item['children'] = children
+            tree.append(item)
+    return tree
+
+
+data = [
+    {"id": 1, "name": "happy", "parent_id": 0},
+    {"id": 2, "name": "lucy", "parent_id": 1},
+    {"id": 3, "name": "john", "parent_id": 1},
+    {"id": 4, "name": "tom", "parent_id": 2},
+    {"id": 5, "name": "jerry", "parent_id": 3}]
+
+tree = build_tree(data)
+print(tree)
