@@ -3,6 +3,7 @@
 import json
 import csv
 import random
+import re
 
 my_dict = {
     'name': '骆昊',
@@ -29,3 +30,26 @@ with open('source.csv', 'r') as file:
     reader = csv.reader(file, delimiter='|')
     for row in reader:
         print(row)
+
+# username = input('请输入qq号码')
+#
+# if re.match(r'^[1-9]\d{4,10}$', username):
+#     print('qq号码格式正确')
+# else:
+#     print("qq号码格式不正确")
+# 创建查找手机的正则表达式
+phone_regex = re.compile(r'(?<=\D)1[3456789]\d{9}(?=\D)')
+sentence = ("""我的手机号是13812345678，我的QQ号是123456789，我的邮箱是zhangsan@sina.com。'
+            '重要的事情说8130123456789遍，我的手机号是13512346789这个靓号，
+不是15600998765，也是110或119，王大锤的手机号才是15600998765""")
+tels_list = re.findall(phone_regex, sentence)
+for _list in tels_list:
+    print(_list)
+
+for temp in phone_regex.finditer(sentence):
+    print(temp.group())
+
+# m = phone_regex.search(sentence)
+# while m:
+#     print(m.group())
+
