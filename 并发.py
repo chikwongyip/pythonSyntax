@@ -2,6 +2,7 @@
 import random
 import time
 from threading import Thread
+from concurrent.futures import ThreadPoolExecutor
 
 
 def download(*, file_name):
@@ -26,12 +27,12 @@ def main_thread():
         Thread(target=download, kwargs={'file_name': 'java从入门到入土.pdf'}),
         Thread(target=download, kwargs={'file_name': 'linux从精通到放弃.pdf'})
     ]
-#     启动线程
+    #     启动线程
     start = time.time()
     for thread in threads:
         thread.start()
 
-#     等待所有线程执行完毕
+    #     等待所有线程执行完毕
     for thread in threads:
         thread.join()
     end = time.time()
@@ -40,4 +41,11 @@ def main_thread():
 
 if __name__ == '__main__':
     # main()
-    main_thread()
+    # main_thread()with ThreadPoolExecutor(max_workers=3) as executor:
+    with ThreadPoolExecutor(max_workers=3) as executor:
+        filenames = ['python入门到跑路.pdf', 'java从入门到入土.pdf', 'linux从精通到放弃.pdf']
+        start = time.time()
+        for filename in filenames:
+            executor.submit(download, filename=filename)
+        end = time.time()
+        print(f'所有文件下载完成，总耗时{end - start}秒')
